@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网易云音乐喵喵</title>
+    <!--可以让部分国产浏览器默认采用高速模式渲染页面-->
+    <meta name="renderer" content="webkit">
+    <!--为了让 IE 浏览器运行最新的渲染模式下-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="网易云音乐，音乐，播放器，网易，下载，播放，DJ，免费，明星，精选，歌单，识别音乐，收藏，分享音乐，音乐互动，高音质，320K，音乐社交，官网，移动站，music.163.com">
+    <meta name="description" content="网易云音乐是一款专注于发现与分享的音乐产品，依托专业音乐人、DJ、好友推荐及社交功能，为用户打造全新的音乐生活。">
+    <link rel="shortcut icon" href="./icon/favicon.ico">
+    <!--
+        apple-touch-icon: 是苹果私有的属性
+        作用: 指定将网页保存到主屏幕上的时候的图标
+       -->
+    <link rel="apple-touch-icon"  href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon114.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon180.png">
+    <script>
+        // 适配移动端的三步骤
+        // 获取物理设备
+        let scale = 1.0 / window.devicePixelRatio;
+        // 添加meta
+        let text = `<meta name="viewport" content="width=device-width, initial-scale=${scale}, maximum-scale=${scale}, minimum-scale=${scale}, user-scalable=no">`
+        // 写入body
+        document.write(text);
+        // 设置body rem 字体大小
+        // 这里以设计比例 750 x 1334为 把750分成100份 每一份为 7.5等分
+        // 设计图的宽度为750px；实际真机为iphone5SE，如何做到把布局视口的宽度设置为和设计图的宽度一致呢？
+        // 即是320px变成750px，实际上是缩小操作，即是initial-scale的值小于1；
+        // 比例为：理想视口宽度目标尺寸宽度 / 设计图宽度的等分比 = innerWidth / 7.5 = 320 / 7.5
+        document.documentElement.style.fontSize = window.innerWidth / 7.5 + 'px';
+    </script>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/swiper.css">
+<!--    because its MIME type ('text/less') is not a supported stylesheet MIME type, and strict MIME checking is enabled  少了 /less-->
+    <link rel="stylesheet/less" href="css/index.less">
+</head>
+<body>
+<!--
+1.双飞翼布局
+1.1搞一个容器, 在容器中放三个子元素
+1.2在中间的元素中再放一个元素
+1.3设置两边的尺寸, 设置中间的宽度等于100%
+1.4设置中间元素里面的盒子的margin为两边的宽度
+1.5让三个盒子往同一方向浮动
+1.6设置左边盒子的margin-left:-100%
+1.7设置右边盒子的margin-left:-自身宽度
+-->
+
+<!-- 头部 -->
+<!--header me-->
+<!--header friend-->
+<div class="header"></div>
+
+<!--<div class="header">-->
+<!--    <div class="header-default">-->
+<!--        <div class="header-center">-->
+<!--            <div class="header-center-box">-->
+<!--                &lt;!&ndash;    图片        &ndash;&gt;-->
+<!--                <img src="common/images/topbar-it666-search.png" alt="">-->
+<!--                <input type="text" placeholder="大家都在搜 那个女孩">-->
+<!--                &lt;!&ndash;    第二个topbar        &ndash;&gt;-->
+<!--                <span class="header-title">我的音乐</span>-->
+<!--                &lt;!&ndash;      切换开关的      &ndash;&gt;-->
+<!--                <div class="header-switch">-->
+<!--                    <i></i>-->
+<!--                    <span class="active">动态</span>-->
+<!--                    <span>附近</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="header-left"></div>-->
+<!--        &lt;!&ndash;  取消  &ndash;&gt;-->
+<!--        <div class="header-cancel">-->
+<!--            <a href="#">取消</a>-->
+<!--        </div>-->
+<!--        <div class="header-right"></div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;  搜索输入框历史  &ndash;&gt;-->
+<!--    <div class="header-container">-->
+<!--        &lt;!&ndash;  滚动  &ndash;&gt;-->
+<!--        <div class="header-wrapper">-->
+<!--            <div class="search-ad">-->
+<!--                <img src="common/images/search-banner.gif" class="fluid-img">-->
+<!--                <span>X</span>-->
+<!--            </div>-->
+<!--            &lt;!&ndash;搜索历史&ndash;&gt;-->
+<!--            <div class="search-history">-->
+<!--                <div class="history-top">-->
+<!--                    <h6>搜索历史</h6>-->
+<!--                    <img src="common/images/search-it666-delete.png" alt="">-->
+<!--                </div>-->
+<!--                <div class="history-bottom">-->
+<!--                    <ul class="history-item">-->
+<!--&lt;!&ndash;                        <li>江南</li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <li>菊花台</li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <li>周杰伦</li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <li>jay</li>&ndash;&gt;-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash;热搜榜&ndash;&gt;-->
+<!--            <div class="search-hot">-->
+<!--                <div class="hot-top">-->
+<!--                    <h6>热搜榜</h6>-->
+<!--                </div>-->
+<!--                <div class="hot-bottom">-->
+<!--                    <ul class="hot-item">-->
+
+<!--&lt;!&ndash;                        <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <span class="hot-left">2</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <div class="hot-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <p>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <strong>毛不易</strong>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <span>少时诵诗书2</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <img src="images/home-it666-zb.png">&ndash;&gt;-->
+<!--&lt;!&ndash;                                </p>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <p>听说哎哟，很不错哦</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </li>&ndash;&gt;-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash;搜索列表&ndash;&gt;-->
+<!--            <div class="search-list">-->
+<!--                <div class="searchCurrent-top">-->
+<!--                    搜索"lee"-->
+<!--                </div>-->
+<!--                <div class="searchCurrent-bottom">-->
+<!--                    <ul>-->
+<!--&lt;!&ndash;                        <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <img src="images/topbar-it666-search.png" alt="">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <p>这里是搜索出来的列表</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </li>&ndash;&gt;-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--内容start-->
+<div class="main">
+    <div class="main-in">
+        <!--下拉刷新 Start-->
+        <div class="pull-down">
+            <img src="images/pull-down.png">
+            <!--画线那部分重合的-->
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 width="60px" height="60px" viewBox="279.747 366.016 60 60" enable-background="new 279.747 366.016 60 60" xml:space="preserve">
+<path id="refreshLogo" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="M301.144,374.58
+	c-16.549,5.334-25.163,23.41-15.075,37.437c8.615,12.051,26.864,15.606,40.692,8.001c10.995-6.025,14.282-18.768,7.368-28.349
+	c-5.555-7.705-17.229-9.977-26.07-5.137c-7.027,3.853-8.614,10.767-5.44,16.298c3.06,5.137,11.221,5.631,15.302,2.667
+	c5.44-4.05,4.193-10.568,1.474-15.31c-14.282-25.09,7.254-24.694,9.975-18.966"/>
+</svg>
+        </div>
+        <!--下拉刷新 End-->
+
+        <!--Swiper Start-->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+<!--                <div class="swiper-slide">-->
+<!--                    <img src="images/img1.jpg">-->
+<!--                    <span>广告</span>-->
+<!--                </div>-->
+<!--                <div class="swiper-slide">-->
+<!--                    <img src="images/img2.jpg">-->
+<!--                    <span>原创</span>-->
+<!--                </div>-->
+<!--                <div class="swiper-slide">-->
+<!--                    <img src="images/img3.jpg">-->
+<!--                    <span>生活</span>-->
+<!--                </div>-->
+<!--                <div class="swiper-slide">-->
+<!--                    <img src="images/img4.jpg">-->
+<!--                    <span>摄影</span>-->
+<!--                </div>-->
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+        </div>
+        <!--Swiper End-->
+        <!--p{我是P段落$}*100 快捷键按tab键-->
+
+        <!--顶部导航栏 Start-->
+        <div class="nav">
+            <ul>
+                <li>
+                    <p>
+                        <img src="images/home-it666-rl.png">
+                        <i></i>
+                    </p>
+                    <span>每日推荐</span>
+                </li>
+                <li>
+                    <img src="images/home-it666-gd.png">
+                    <span>歌单</span>
+                </li>
+                <li>
+                    <img src="images/home-it666-phb.png">
+                    <span>排行榜</span>
+                </li>
+                <li>
+                    <img src="images/home-it666-dt.png">
+                    <span>电台</span>
+                </li>
+                <li>
+                    <img src="images/home-it666-zb.png">
+                    <span>直播</span>
+                </li>
+            </ul>
+        </div>
+        <!--顶部导航栏 End-->
+
+
+<!--        &lt;!&ndash;推荐歌单 Start&ndash;&gt;-->
+<!--        <div class="recommend">-->
+<!--            <div class="recommend-top">-->
+<!--                <h3>推荐歌单</h3>-->
+<!--                <span>歌单广场</span>-->
+<!--            </div>-->
+<!--            <div class="recommend-bottom">-->
+<!--&lt;!&ndash;                <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                            &lt;!&ndash;大图 &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                            <img src="images/test.jpg" class="fluid-img">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <p>&ndash;&gt;-->
+<!--&lt;!&ndash;                                &lt;!&ndash;小图播放&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                <img src="images/home-small-play.png">&ndash;&gt;-->
+<!--&lt;!&ndash;                                &lt;!&ndash;播放量&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                <span>130万</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </p>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <p class="recommend-title">这是标题呀标题呀，loop模式下会在slides前后复制若干个slide,，前后复制的个数不会大于原总个数</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;推荐歌单 End&ndash;&gt;-->
+
+<!--        &lt;!&ndash;独家放送 Start&ndash;&gt;-->
+<!--        <div class="exclusive">-->
+<!--            <div class="exclusive-top">-->
+<!--                <h3>独家放送</h3>-->
+<!--                <span>小微出品</span>-->
+<!--            </div>-->
+<!--            <div class="exclusive-bottom">-->
+<!--&lt;!&ndash;                <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <i></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <img src="images/test2.jpg" class="fluid-img">&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <p class="exclusive-title">这是标题呀标题呀，loop模式下会在slides前后复制若干个slide,，前后复制的个数不会大于原总个数</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;独家放送 End&ndash;&gt;-->
+
+<!--        &lt;!&ndash;新碟上架 Start&ndash;&gt;-->
+<!--        <div class="album">-->
+<!--            <div class="album-top">-->
+<!--                <h3>新碟上架</h3>-->
+<!--                <span>更多新碟</span>-->
+<!--            </div>-->
+<!--            <div class="album-bottom">-->
+<!--&lt;!&ndash;               <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                   <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                       <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                           <img src="images/test.jpg" class="fluid-img">&ndash;&gt;-->
+<!--&lt;!&ndash;                       </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                       <p class="album-title">设计图的</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                       <p class="album-singer">leewww singer</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                   </li>&ndash;&gt;-->
+<!--&lt;!&ndash;               </ul>&ndash;&gt;-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--        &lt;!&ndash;新碟上架 End&ndash;&gt;-->
+
+<!--        &lt;!&ndash;推荐MV Start&ndash;&gt;-->
+<!--        <div class="mv">-->
+<!--            <div class="mv-top">-->
+<!--                <h3>推荐MV</h3>-->
+<!--                <span>更多MV</span>-->
+<!--            </div>-->
+<!--            <div class="mv-bottom">-->
+<!--&lt;!&ndash;                <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <img src="images/test.jpg" class="fluid-img">&ndash;&gt;-->
+<!--&lt;!&ndash;                            &lt;!&ndash;小图&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                            <p>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <img src="images/home-small-video.png">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <span>333</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </p>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <p class="mv-title">魔杰座</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <p class="mv-singer">jay</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;推荐MV End&ndash;&gt;-->
+
+<!--        &lt;!&ndash;推荐电台 Start&ndash;&gt;-->
+<!--        <div class="dj">-->
+<!--            <div class="dj-top">-->
+<!--                <h3>主播电台</h3>-->
+<!--                <span>更多主播</span>-->
+<!--            </div>-->
+<!--            <div class="dj-bottom">-->
+<!--&lt;!&ndash;                <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <img src="images/test.jpg" class="fluid-img">&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <p class="dj-title">这是对于这个DJ的描述信息</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;推荐电台 End&ndash;&gt;-->
+
+        <!--优化后的-->
+        <div class="recommend"></div>
+        <div class="exclusive"></div>
+        <div class="album"></div>
+        <div class="mv"></div>
+        <div class="dj"></div>
+
+        <!--上啦加载更多 Start-->
+        <div class="pull-up">
+           <p>
+               <img src="images/pull-up.gif">
+               <span>上拉加载更多</span>
+           </p>
+        </div>
+        <!--上啦加载更多 End-->
+    </div>
+</div>
+<!--内容end-->
+
+<!--模板数据 template-web Start-->
+<script id="bannerSlide" type="text/html">
+    <% for(let i = 0; i < banners.length; i++) {%>
+    <div class="swiper-slide">
+        <img src="<%=banners[i].pic%>" class="fluid-img">
+        <span style="background: <%=banners[i].titleColor%>"><%=banners[i].typeTitle%></span>
+    </div>
+    <% } %>
+</script>
+<!--模板数据 End-->
+
+<!--模板数据 推荐歌单 Start-->
+<script id="recommendItem" type="text/html">
+    <ul>
+        <% for(let i = 0; i < 6; i++) {%>
+        <li>
+            <div>
+                <!--大图 -->
+                <img src="<%=result[i].picUrl%>" class="fluid-img">
+                <p>
+                    <!--小图播放-->
+                    <img src="images/home-small-play.png">
+                    <!--播放量-->
+                    <%
+                    let num = result[i].playCount;
+                    let res = 0;
+                    if(num / 100000000 > 1){
+                    let temp = num / 100000000 + "";
+                    if(temp.indexOf(".") === -1){
+                    res = num / 100000000 + "亿";
+                    }else{
+                    res = (num / 100000000).toFixed(1) + "亿";
+                    }
+                    }else if(num / 10000 > 1){
+                    let temp = num / 10000 + "";
+                    if(temp.indexOf(".") === -1){
+                    res = num / 10000 + "万";
+                    }else{
+                    res = (num / 10000).toFixed(1) + "万";
+                    }
+                    }else{
+                    res = num;
+                    }
+                    %>
+                    <span><%=res%></span>
+                </p>
+            </div>
+            <p class="recommend-title"><%=result[i].name%></p>
+
+        </li>
+        <% } %>
+    </ul>
+</script>
+<!--模板数据 推荐歌单 End-->
+
+<!--模板数据 独家放送 Start-->
+<!--<script id="exclusiveItem" type="text/html">-->
+<!--    <ul>-->
+<!--        <% for (let i = 0; i < result.length; i++) {%>-->
+<!--        <li>-->
+<!--            <div>-->
+<!--                <i></i>&ndash;&gt;-->
+<!--                <img src="<%=result[i].picUrl%>" class="fluid-img">-->
+<!--            </div>-->
+<!--            <p class="exclusive-title"><%=result[i].name%></p>-->
+<!--        </li>-->
+<!--        <% } %>-->
+<!--    </ul>-->
+<!--</script>-->
+<!--模板数据 独家放送 End-->
+
+<!--模板数据 新碟上架 Start-->
+<!--<script id="albumItem" type="text/html">-->
+<!--    <ul>-->
+<!--        <% for(let i = 0; i < 18; i++) {%>-->
+<!--        <li>-->
+<!--            <div>-->
+<!--                <img src="<%=monthData[i].blurPicUrl%>" class="fluid-img">-->
+<!--            </div>-->
+<!--            <p class="album-title"><%=monthData[i].name%></p>-->
+<!--            <p class="album-singer"><%=monthData[i].artists[0].name%></p>-->
+<!--        </li>-->
+<!--        <% } %>-->
+<!--    </ul>-->
+<!--</script>-->
+<!--模板数据 新碟上架 End-->
+
+<!--模板数据 推荐MV Start-->
+<!--<script id="mvItem" type="text/html">-->
+<!--    <ul>-->
+<!--        <% for (let i = 0; i < result.length; i++) {%>-->
+<!--        <li>-->
+<!--            <div>-->
+<!--                <img src="<%=result[i].picUrl%>" class="fluid-img">-->
+<!--                &lt;!&ndash;小图&ndash;&gt;-->
+<!--                <p>-->
+<!--                    <img src="images/home-small-video.png">-->
+<!--                    <span><%=result[i].playCount%></span>-->
+<!--                </p>-->
+<!--            </div>-->
+<!--            <p class="mv-title"><%=result[i].name%></p>-->
+<!--            <p class="mv-singer"><%=result[i].artistName%></p>-->
+<!--        </li>-->
+<!--        <% } %>-->
+<!--    </ul>-->
+<!--</script>-->
+<!--模板数据 推荐MV End-->
+
+<!--模板数据 DJ Start-->
+<!--<script id="djItem" type="text/html">-->
+<!--    <ul>-->
+<!--        <% for (let i = 0; i < result.length; i++) {%>-->
+<!--        <li>-->
+<!--            <div>-->
+<!--                <img src="<%=result[i].picUrl%>" class="fluid-img">-->
+<!--                <p>-->
+<!--                    <img src="images/home-small-dj.png" alt="">-->
+<!--                </p>-->
+<!--            </div>-->
+<!--            <p class="dj-title"><%=result[i].name%></p>-->
+<!--        </li>-->
+<!--        <% } %>-->
+<!--    </ul>-->
+<!--</script>-->
+<!--模板数据 DJ End-->
+
+
+<!--公共的模板数据 Start-->
+<script id="category" type="text/html">
+    <div class="category">
+        <div class="category-top">
+            <h3><%=title%></h3>
+            <span><%=subTitle%></span>
+        </div>
+        <div class="category-bottom">
+            <ul>
+                <% for(let i = 0; i < result.length; i ++) {%>
+                <li style="width: <%=result[i].width%>rem">
+                    <div>
+                        <!--大图 -->
+                        <img src="<%=result[i].picUrl%>" class="fluid-img">
+                        <!--推荐歌单小图标-->
+                        <% if (title === '推荐歌单') {%>
+                        <p class="p1">
+                            <!--小图播放-->
+                            <img src="images/home-small-play.png">
+                            <!--播放量-->
+                            <span><%=result[i].playCount%></span>
+                        </p>
+                        <% } else if (title === '独家放送') {%>
+                        <!--独家放送小图标-->
+                        <p class="p2">
+                            <img src="images/home-small-exclusive.png" alt="">
+                        </p>
+                        <% } else if (title === '知名主播') {%>
+                        <!--DJ小图标-->
+                        <p class="p3">
+                            <img src="images/home-small-dj.png" alt="">
+                        </p>
+                        <% } %>
+                    </div>
+                    <p class="category-title"><%=result[i].name%></p>
+                    <p class="category-singer"><%=result[i].artistName%></p>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</script>
+<!--公共的模板数据 End-->
+
+<script id="hotDetail" type="text/html">
+    <% for (let i = 0; i < data.length; i ++) {%>
+    <li>
+        <span class="hot-left"><%=(i + 1)%></span>
+        <div class="hot-right">
+            <p>
+                <strong><%=data[i].searchWord%></strong>
+                <span><%=data[i].score%></span>
+                <img src="<%=data[i].iconUrl%>" alt="">
+            </p>
+            <p><%=data[i].content%></p>
+        </div>
+    </li>
+    <% } %>
+</script>
+
+<!--  底部footer Start -->
+<div class="footer"></div>
+<!--  底部footer End -->
+
+<!--  底部tabbar start -->
+<!--<div class="footer">-->
+<!--    <ul>-->
+<!--        &lt;!&ndash;            默认第一个选中&ndash;&gt;-->
+<!--        <li class="active">-->
+<!--            <img src="images/toolbar-it666-discovery-selected.png">-->
+<!--            <span>发现</span>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <img src="images/toolbar-it666-video-normal.png">-->
+<!--            <span>视频</span>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <img src="images/toolbar-it666-me-normal.png">-->
+<!--            <span>我的</span>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <img src="images/toolbar-it666-friend-normal.png">-->
+<!--            <span>朋友</span>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <img src="images/toolbar-it666-account-normal.png">-->
+<!--            <span>账号</span>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</div>-->
+<!-- 底部tabbar end-->
+
+<!-- 引入js -->
+<script src="js/less.js"></script>
+<!--顺序不能乱-->
+<script src="js/zepto.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/fx_methods.js"></script>
+<script src="js/iscroll-probe.js"></script>
+<script src="js/swiper.js"></script>
+<script src="js/axios.js"></script>
+<script src="js/api.js"></script>
+<script src="js/tools.js"></script>
+<!--模板引擎-->
+<script src="js/template-web.js"></script>
+<script src="js/clamp.js"></script>
+<script src="js/index.js"></script>
+
+
+</body>
+</html>
